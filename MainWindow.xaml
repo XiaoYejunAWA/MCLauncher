@@ -1,0 +1,48 @@
+﻿<pu:WindowX x:Class="MCLauncher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MCLauncher"
+        mc:Ignorable="d"
+            xmlns:pu="clr-namespace:Panuon.UI.Silver;assembly=Panuon.UI.Silver"
+        Title="我的世界启动器" Height="450" Width="800">
+    <Grid>
+        <ComboBox Height="30"
+              Width="200"
+               HorizontalAlignment="Left"
+                  x:Name="versionCombo"
+               VerticalAlignment="Top"
+               Margin="30,30,0,0"
+              pu:ComboBoxHelper.Header="Select one : "
+              DisplayMemberPath="Id" 
+              pu:ComboBoxHelper.ItemHeight="30"/>
+        <ComboBox Height="30"
+              Width="200"
+               HorizontalAlignment="Left"
+                  x:Name="javaCombo"
+               VerticalAlignment="Top"
+               Margin="30,70,0,0"
+              pu:ComboBoxHelper.Header="Select one : "
+              pu:ComboBoxHelper.ItemHeight="30"/>
+        <TextBox Height="30"
+             Width="200"
+             Text="给个三连呗"
+             x:Name="IdTextbox"
+             pu:TextBoxHelper.Header="Account : "
+             pu:TextBoxHelper.Watermark="PlaceHolder"
+             pu:TextBoxHelper.CornerRadius="15" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,30,100" FontSize="24"/>
+        <TextBox Height="30"
+             Width="200"
+             x:Name="MemoryTextbox"
+             Text="1024"
+             pu:TextBoxHelper.Header="Account : "
+             pu:TextBoxHelper.Watermark="PlaceHolder"
+             pu:TextBoxHelper.CornerRadius="15" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,110,0,0" FontSize="20"/>
+        <Button Height="60"
+            Width="200"
+            Content="启动"
+            pu:ButtonHelper.ButtonStyle="Outline"
+            pu:ButtonHelper.CornerRadius="15" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,30,30" FontSize="36" Click="Button_Click"/>
+    </Grid>
+</pu:WindowX>
