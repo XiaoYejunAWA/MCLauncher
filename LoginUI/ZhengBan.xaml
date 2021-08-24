@@ -1,0 +1,16 @@
+﻿<Page x:Class="MCLauncher.LoginUI.ZhengBan"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MCLauncher.LoginUI"
+      mc:Ignorable="d" 
+      d:DesignHeight="200" d:DesignWidth="200"
+      Title="ZhengBan">
+
+    <Grid>
+        
+        <PasswordBox x:Name="password"  VerticalAlignment="Bottom" Width="200" Height="30" HorizontalAlignment="Right" FontSize="20"></PasswordBox>
+        <TextBox x:Name="Email" Text="账号,下面是密码" VerticalAlignment="Bottom" Width="200" Height="30" HorizontalAlignment="Right" FontSize="20" Margin="0,0,0,40"></TextBox>
+    </Grid>
+</Page>

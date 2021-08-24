@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MCLauncher"
         mc:Ignorable="d"
-            xmlns:pu="clr-namespace:Panuon.UI.Silver;assembly=Panuon.UI.Silver"
+        xmlns:pu="clr-namespace:Panuon.UI.Silver;assembly=Panuon.UI.Silver"
         Title="我的世界启动器" Height="450" Width="800">
     <Grid>
+        <ContentControl x:Name="ContentControl1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="200" Height="200" Margin="0,0,30,140"></ContentControl>
         <ComboBox Height="30"
               Width="200"
                HorizontalAlignment="Left"
@@ -25,13 +26,9 @@
                Margin="30,70,0,0"
               pu:ComboBoxHelper.Header="Select one : "
               pu:ComboBoxHelper.ItemHeight="30"/>
-        <TextBox Height="30"
-             Width="200"
-             Text="给个三连呗"
-             x:Name="IdTextbox"
-             pu:TextBoxHelper.Header="Account : "
-             pu:TextBoxHelper.Watermark="PlaceHolder"
-             pu:TextBoxHelper.CornerRadius="15" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,30,100" FontSize="24"/>
+        <Button Content="离线" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="60" Height="30" Margin="0,0,170,100" FontSize="20" Click="Button_Click_1"></Button>
+        <Button Content="正版" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="60" Height="30" Margin="0,0,100,100" FontSize="20" Click="Button_Click_2"></Button>
+        <Button Content="微软" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="60" Height="30" Margin="0,0,30,100" FontSize="20" Click="Button_Click_3"></Button>
         <TextBox Height="30"
              Width="200"
              x:Name="MemoryTextbox"

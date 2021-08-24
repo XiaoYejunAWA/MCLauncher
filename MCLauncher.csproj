@@ -209,6 +209,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="LoginUI\LiXian.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoginUI\WeiRuan.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoginUI\ZhengBan.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -216,6 +228,15 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LoginUI\LiXian.xaml.cs">
+      <DependentUpon>LiXian.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LoginUI\WeiRuan.xaml.cs">
+      <DependentUpon>WeiRuan.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LoginUI\ZhengBan.xaml.cs">
+      <DependentUpon>ZhengBan.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
