@@ -51,7 +51,7 @@ namespace MCLauncher
             versionCombo.SelectedItem = versionCombo.Items[0];
             javaCombo.SelectedItem = javaCombo.Items[0];
         }
-        public void GameStart()
+        public async void GameStart()
         {
             LaunchOptions launchOptions = new LaunchOptions();
             switch (launchMode)
@@ -62,6 +62,7 @@ namespace MCLauncher
                 case 2:
                     launchOptions.Authenticator = new YggdrasilLogin(ZhengBan.Email.Text,ZhengBan.password.Password,false);
                     break;
+
             }
             
             launchOptions.MaxMemory = Convert.ToInt32(MemoryTextbox.Text);
@@ -72,6 +73,8 @@ namespace MCLauncher
             {
                 try
                 {
+                    if (launchMode != 3)
+                    {
                     Core.JavaPath = javaCombo.Text;
                     var ver = (KMCCC.Launcher.Version)versionCombo.SelectedItem;
                     launchOptions.Version = ver;
@@ -95,6 +98,22 @@ namespace MCLauncher
                                 break;
                         }
                     }
+                    }
+                    else
+                    {
+                        microsoft_launcher.MicrosoftAPIs microsoftAPIs = new microsoft_launcher.MicrosoftAPIs();
+                        var v = WeiRuan.wb.Source.ToString().Replace(microsoftAPIs.cutUri, string.Empty); 
+                            var t = Task.Run(() => {
+                                return microsoftAPIs.GetAccessTokenAsync(v, false).Result;
+                            });
+                            await t;
+                            var v1 = microsoftAPIs.GetAllThings(t.Result.access_token,false);
+                            SquareMinecraftLauncher.Minecraft.Game game = new SquareMinecraftLauncher.Minecraft.Game();
+                            await game.StartGame(versionCombo.Text, javaCombo.Text, Convert.ToInt32(MemoryTextbox.Text),v1.name,v1.uuid,v1.mcToken,string.Empty,string.Empty);
+                        
+                            
+                    }
+                    
 
                 }
                 catch

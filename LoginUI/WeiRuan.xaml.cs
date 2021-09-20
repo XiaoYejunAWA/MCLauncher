@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using microsoft_launcher;
 
 namespace MCLauncher.LoginUI
 {
@@ -23,6 +24,9 @@ namespace MCLauncher.LoginUI
         public WeiRuan()
         {
             InitializeComponent();
+            MicrosoftAPIs microsoftAPIs = new MicrosoftAPIs();
+            microsoftAPIs.SuppressWininetBehavior();
+            wb.Source = microsoftAPIs.loginWebsite;
         }
     }
 }
