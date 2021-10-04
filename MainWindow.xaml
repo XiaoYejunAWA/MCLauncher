@@ -16,8 +16,9 @@
                VerticalAlignment="Top"
                Margin="30,30,0,0"
               pu:ComboBoxHelper.Header="Select one : "
-              DisplayMemberPath="Id" 
-              pu:ComboBoxHelper.ItemHeight="30"/>
+              DisplayMemberPath="version" 
+              
+              pu:ComboBoxHelper.ItemHeight="30" SelectedValuePath="IdVersion"/>
         <ComboBox Height="30"
               Width="200"
                HorizontalAlignment="Left"
@@ -38,6 +39,7 @@
              pu:TextBoxHelper.CornerRadius="15" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,110,0,0" FontSize="20"/>
         <Button Height="60"
             Width="200"
+            x:Name="startbutton"
             Content="启动"
             pu:ButtonHelper.ButtonStyle="Outline"
             pu:ButtonHelper.CornerRadius="15" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,30,30" FontSize="36" Click="Button_Click"/>

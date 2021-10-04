@@ -13,10 +13,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Panuon.UI.Silver;
-using KMCCC.Launcher;
-using KMCCC.Authentication;
 using SquareMinecraftLauncher;
 using System.Collections;
+using System.Net;
+using SquareMinecraftLauncher.Minecraft;
 
 namespace MCLauncher
 {
@@ -30,102 +30,109 @@ namespace MCLauncher
         LoginUI.WeiRuan WeiRuan = new LoginUI.WeiRuan();
         LoginUI.ZhengBan ZhengBan = new LoginUI.ZhengBan();
         public int launchMode = 1;
+        microsoft_launcher.MicrosoftAPIs microsoftAPIs = new microsoft_launcher.MicrosoftAPIs();
+        SquareMinecraftLauncher.Minecraft.Game game = new SquareMinecraftLauncher.Minecraft.Game();
         SquareMinecraftLauncher.Minecraft.Tools tools = new SquareMinecraftLauncher.Minecraft.Tools();
-        public static LauncherCore Core = LauncherCore.Create();
+        SquareMinecraftLauncher.MinecraftDownload minecraftDownload = new SquareMinecraftLauncher.MinecraftDownload();
+
         public MainWindow()
         {
             InitializeComponent();
-            
+            ServicePointManager.DefaultConnectionLimit = 512;
             //自动找版本
-            var versions = Core.GetVersions().ToArray();
+            var versions = tools.GetAllTheExistingVersion();
             versionCombo.ItemsSource = versions;//绑定数据源
             //自动找java
             List<string> javaList = new List<string>();
-            foreach(string i in KMCCC.Tools.SystemTools.FindJava())
-            {
-                javaList.Add(i);
-            }
             javaList.Add(tools.GetJavaPath());
+            foreach(var i in microsoftAPIs.GetJavaList())
+            {
+                javaList.Add(i.Path.ToString());
+            }
             javaCombo.ItemsSource = javaList;
             //初始选择
             versionCombo.SelectedItem = versionCombo.Items[0];
             javaCombo.SelectedItem = javaCombo.Items[0];
         }
+       
+        public void CompleteFile()
+        {
+            try
+            {
+                tools.DownloadSourceInitialization(DownloadSource.bmclapiSource);
+                var v = tools.GetMissingFile(versionCombo.SelectedValue.ToString());
+                Gac.DownLoadFile downLoadFile = new Gac.DownLoadFile();
+                foreach(var i in v)
+                {
+                    downLoadFile.AddDown(i.Url,i.path);//增加下载
+                }
+                downLoadFile.StartDown(0);
+            }
+            catch(Exception e)
+            {
+                MessageBoxX.Show(e.ToString(),"补全文件失败");
+            }
+           
+
+        }
+
+
+        /// <summary>
+        /// 游戏启动
+        /// </summary>
         public async void GameStart()
         {
-            LaunchOptions launchOptions = new LaunchOptions();
-            switch (launchMode)
+            try
             {
-                case 1:
-                    launchOptions.Authenticator = new OfflineAuthenticator(LiXian.IDText.Text);
-                    break;
-                case 2:
-                    launchOptions.Authenticator = new YggdrasilLogin(ZhengBan.Email.Text,ZhengBan.password.Password,false);
-                    break;
-
-            }
-            
-            launchOptions.MaxMemory = Convert.ToInt32(MemoryTextbox.Text);
-            if (versionCombo.Text != string.Empty&&
-                javaCombo.Text != string.Empty&&
-                (LiXian.IDText.Text!=string.Empty||(ZhengBan.Email.Text != string.Empty&&ZhengBan.password.Password != string.Empty)&&
-                MemoryTextbox.Text!=string.Empty))
-            {
-                try
+                if (startbutton.Content.ToString() == "启动")
                 {
-                    if (launchMode != 3)
+                    startbutton.Content = "补全文件ing";
+                    CompleteFile();
+                    if (versionCombo.Text != string.Empty &&
+                        javaCombo.Text != string.Empty &&
+                        (LiXian.IDText.Text != string.Empty || ZhengBan.Email.Text != string.Empty && ZhengBan.password.Password != string.Empty &&
+                        MemoryTextbox.Text != string.Empty))
                     {
-                    Core.JavaPath = javaCombo.Text;
-                    var ver = (KMCCC.Launcher.Version)versionCombo.SelectedItem;
-                    launchOptions.Version = ver;
-
-                    var result = Core.Launch(launchOptions);
-                    if (!result.Success)
-                    {
-                        switch (result.ErrorType)
+                        switch (launchMode)
                         {
-                            case ErrorType.NoJAVA:
-                                MessageBoxX.Show("java错误，详细信息：" + result.ErrorMessage, "错误");
+                            case 1:
+                                startbutton.Content = "启动ing";
+                                await game.StartGame(versionCombo.Text, javaCombo.Text, Convert.ToInt32(MemoryTextbox.Text), LiXian.IDText.Text);
                                 break;
-                            case ErrorType.AuthenticationFailed:
-                                MessageBoxX.Show("登录错误，详细信息：" + result.ErrorMessage, "错误");
+                            case 2:
+                                startbutton.Content = "启动ing";
+                                await game.StartGame(versionCombo.Text, javaCombo.Text, Convert.ToInt32(MemoryTextbox.Text), ZhengBan.Email.Text, ZhengBan.password.Password);
                                 break;
-                            case ErrorType.UncompressingFailed:
-                                MessageBoxX.Show("文件错误，详细信息：" + result.ErrorMessage, "错误");
-                                break;
-                            default:
-                                MessageBoxX.Show(result.ErrorMessage, "错误");
+                            case 3:
+                                startbutton.Content = "微软登录验证ing";
+                                microsoft_launcher.MicrosoftAPIs microsoftAPIs = new microsoft_launcher.MicrosoftAPIs();
+                                var v = WeiRuan.wb.Source.ToString().Replace(microsoftAPIs.cutUri, string.Empty);
+                                var t = Task.Run(() =>
+                                {
+                                    return microsoftAPIs.GetAccessTokenAsync(v, false).Result;
+                                });
+                                await t;
+                                var v1 = microsoftAPIs.GetAllThings(t.Result.access_token, false);
+                                startbutton.Content = "启动ing";
+                                await game.StartGame(versionCombo.Text, javaCombo.Text, Convert.ToInt32(MemoryTextbox.Text), v1.name, v1.uuid, v1.mcToken, string.Empty, string.Empty);
                                 break;
                         }
                     }
-                    }
                     else
                     {
-                        microsoft_launcher.MicrosoftAPIs microsoftAPIs = new microsoft_launcher.MicrosoftAPIs();
-                        var v = WeiRuan.wb.Source.ToString().Replace(microsoftAPIs.cutUri, string.Empty); 
-                            var t = Task.Run(() => {
-                                return microsoftAPIs.GetAccessTokenAsync(v, false).Result;
-                            });
-                            await t;
-                            var v1 = microsoftAPIs.GetAllThings(t.Result.access_token,false);
-                            SquareMinecraftLauncher.Minecraft.Game game = new SquareMinecraftLauncher.Minecraft.Game();
-                            await game.StartGame(versionCombo.Text, javaCombo.Text, Convert.ToInt32(MemoryTextbox.Text),v1.name,v1.uuid,v1.mcToken,string.Empty,string.Empty);
-                        
-                            
+                        MessageBoxX.Show("信息未填完整", "错误");
                     }
-                    
-
-                }
-                catch
-                {
-                    MessageBoxX.Show("启动失败", "错误");
                 }
             }
-            else
+            catch (Exception e)
             {
-                MessageBoxX.Show("信息未填完整", "错误");
+                MessageBoxX.Show("启动失败" + e.Message, "错误");
             }
-        }
+            finally
+            {
+                startbutton.Content = "启动";
+            }
+            }
 
 
         private void Button_Click(object sender, RoutedEventArgs e)
