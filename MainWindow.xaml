@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:MCLauncher"
         mc:Ignorable="d"
         xmlns:pu="clr-namespace:Panuon.UI.Silver;assembly=Panuon.UI.Silver"
-        Title="我的世界启动器" Height="450" Width="800">
+        Title="我的世界启动器" Height="450" Width="800"
+            Closing="Window_Closing">
     <Grid>
         <ContentControl x:Name="ContentControl1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="200" Height="200" Margin="0,0,30,140"></ContentControl>
         <ComboBox Height="30"
@@ -36,7 +37,7 @@
              Text="1024"
              pu:TextBoxHelper.Header="Account : "
              pu:TextBoxHelper.Watermark="PlaceHolder"
-             pu:TextBoxHelper.CornerRadius="15" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,110,0,0" FontSize="20"/>
+             pu:TextBoxHelper.CornerRadius="15" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,110,0,0" FontSize="20" TextChanged="MemoryTextbox_TextChanged"/>
         <Button Height="60"
             Width="200"
             x:Name="startbutton"

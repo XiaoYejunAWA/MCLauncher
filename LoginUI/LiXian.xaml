@@ -9,6 +9,6 @@
       Title="LiXian">
 
     <Grid>
-        <TextBox x:Name="IDText" Text="i really need 三连" Width="200" Height="30" VerticalAlignment="Bottom" FontSize="16"></TextBox>
+        <TextBox x:Name="IDText" Text="i really need 三连" Width="200" Height="30" VerticalAlignment="Bottom" FontSize="16" TextChanged="IDText_TextChanged"></TextBox>
     </Grid>
 </Page>

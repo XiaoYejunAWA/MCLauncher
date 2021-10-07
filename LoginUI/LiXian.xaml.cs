@@ -24,5 +24,10 @@ namespace MCLauncher.LoginUI
         {
             InitializeComponent();
         }
+        
+        private void IDText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            
+        }
     }
 }
