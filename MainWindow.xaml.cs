@@ -21,23 +21,31 @@ using System.IO;
 using Newtonsoft.Json;
 using System.ComponentModel;
 using Microsoft.Win32;
+using SquareMinecraftLauncher.Core.OAuth;
 
 namespace MCLauncher
 {
+
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
     public partial class MainWindow : WindowX
     {
-
+        LoginUI.skinlogin skinlogin = new LoginUI.skinlogin();
         LoginUI.LiXian LiXian = new LoginUI.LiXian();
         LoginUI.WeiRuan WeiRuan = new LoginUI.WeiRuan();
         LoginUI.ZhengBan ZhengBan = new LoginUI.ZhengBan();
         public int launchMode = 1;
+        #region 微软登录
+        MicrosoftLogin microsoftLogin = new MicrosoftLogin();
+        Xbox XboxLogin = new Xbox();
+        string Minecraft_Token;
+        microsoft_launcher.MicrosoftAPIs.UUIDAndName UUIDandName;
+        #endregion
         microsoft_launcher.MicrosoftAPIs microsoftAPIs = new microsoft_launcher.MicrosoftAPIs();
-        SquareMinecraftLauncher.Minecraft.Game game = new SquareMinecraftLauncher.Minecraft.Game();
-        SquareMinecraftLauncher.Minecraft.Tools tools = new SquareMinecraftLauncher.Minecraft.Tools();
-        SquareMinecraftLauncher.MinecraftDownload minecraftDownload = new SquareMinecraftLauncher.MinecraftDownload();
+        Game game = new Game();
+        Tools tools = new Tools();
+        MinecraftDownload minecraftDownload = new MinecraftDownload();
         string settingPath = @"Mclauncher.json";
         Setting setting = new Setting();
         RegisterSetting registerSetting = new RegisterSetting();
@@ -50,6 +58,7 @@ namespace MCLauncher
         {
             //注册表数据保存步骤1
             public string name = "攒钱买电脑的小叶君";
+            
         }
 
         public void LauncehrInitialization()
@@ -70,6 +79,7 @@ namespace MCLauncher
                 {
                     if(i == "MclauncherSetting")
                     {
+
                         isFirst = false;
                     }
                 }
@@ -101,16 +111,12 @@ namespace MCLauncher
             var versions = tools.GetAllTheExistingVersion();
             versionCombo.ItemsSource = versions;//绑定数据源
             //自动找java
-            List<string> javaList = new List<string>();
-            javaList.Add(tools.GetJavaPath());
-            foreach (var i in microsoftAPIs.GetJavaList())
-            {
-                javaList.Add(i.Path.ToString());
-            }
-            javaCombo.ItemsSource = javaList;
+            javaCombo.ItemsSource = tools.GetJavaPath();
             //初始选择
-            versionCombo.SelectedItem = versionCombo.Items[0];
-            javaCombo.SelectedItem = javaCombo.Items[0];
+            if(versionCombo.Items.Count!=0)
+                versionCombo.SelectedItem = versionCombo.Items[0];
+            if (javaCombo.Items.Count != 0)
+                javaCombo.SelectedItem = javaCombo.Items[0];
             MemoryTextbox.Text = setting.Ram;
 
 
@@ -154,7 +160,7 @@ namespace MCLauncher
             {
                 if (startbutton.Content.ToString() == "启动")
                 {
-                    startbutton.Content = "补全文件ing";
+                    //startbutton.Content = "补全文件ing";
                     //CompleteFile();
                     if (versionCombo.Text != string.Empty &&
                         javaCombo.Text != string.Empty &&
@@ -165,24 +171,27 @@ namespace MCLauncher
                         {
                             case 1:
                                 startbutton.Content = "启动ing";
-                                await game.StartGame(versionCombo.Text, javaCombo.Text, Convert.ToInt32(MemoryTextbox.Text), LiXian.IDText.Text);
+                                await game.StartGame(versionCombo.Text, javaCombo.SelectedValue.ToString(), Convert.ToInt32(MemoryTextbox.Text), LiXian.IDText.Text);
                                 break;
                             case 2:
                                 startbutton.Content = "启动ing";
-                                await game.StartGame(versionCombo.Text, javaCombo.Text, Convert.ToInt32(MemoryTextbox.Text), ZhengBan.Email.Text, ZhengBan.password.Password);
+                                await game.StartGame(versionCombo.Text, javaCombo.SelectedValue.ToString(), Convert.ToInt32(MemoryTextbox.Text), ZhengBan.Email.Text, ZhengBan.password.Password);
                                 break;
                             case 3:
-                                startbutton.Content = "微软登录验证ing";
-                                microsoft_launcher.MicrosoftAPIs microsoftAPIs = new microsoft_launcher.MicrosoftAPIs();
-                                var v = WeiRuan.wb.Source.ToString().Replace(microsoftAPIs.cutUri, string.Empty);
+                                startbutton.Content = "微软登录ing";
+                                var v = WeiRuan.wb.Source.ToString().Replace(microsoftAPIs.cutUri, String.Empty);
                                 var t = Task.Run(() =>
                                 {
                                     return microsoftAPIs.GetAccessTokenAsync(v, false).Result;
                                 });
                                 await t;
                                 var v1 = microsoftAPIs.GetAllThings(t.Result.access_token, false);
+                                
                                 startbutton.Content = "启动ing";
-                                await game.StartGame(versionCombo.Text, javaCombo.Text, Convert.ToInt32(MemoryTextbox.Text), v1.name, v1.uuid, v1.mcToken, string.Empty, string.Empty);
+                                await game.StartGame(versionCombo.Text, javaCombo.SelectedValue.ToString(), Convert.ToInt32(MemoryTextbox.Text), v1.name, v1.uuid, v1.mcToken, string.Empty, string.Empty);
+                                break;
+                            case 4:
+                                await game.StartGame(versionCombo.Text, javaCombo.SelectedValue.ToString(), Convert.ToInt32(MemoryTextbox.Text), skinlogin.skinskin.Player.Text, skinlogin.skinskin.Player.SelectedValue.ToString(), skinlogin.skin.accessToken, string.Empty, string.Empty);
                                 break;
                         }
                     }
@@ -201,8 +210,27 @@ namespace MCLauncher
                 startbutton.Content = "启动";
             }
             }
+        /// <summary>
+        /// 微软登录
+        /// </summary>
+        /// <returns></returns>
+        public async void MicrosoftLogin()
+        {
+            var v = WeiRuan.wb.Source.ToString();
+            v.Replace(microsoftAPIs.cutUri,String.Empty);
+            var t = Task.Run(() =>
+            {
 
-
+                return microsoftAPIs.GetAccessTokenAsync(v,false).Result;
+                
+            });
+            await t;
+            var v1 = microsoftAPIs.GetAllThings(t.Result.access_token, false);
+            UUIDandName.name = v1.name;
+            UUIDandName.uuid = v1.uuid;
+            Minecraft_Token = v1.mcToken;
+            
+        }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             GameStart();
@@ -249,6 +277,7 @@ namespace MCLauncher
                 Content = WeiRuan
             };
             launchMode = 3;
+
         }
 
         private void MemoryTextbox_TextChanged(object sender, TextChangedEventArgs e)
@@ -268,6 +297,15 @@ namespace MCLauncher
                     software.SetValue("name", LiXian.IDText.Text);
                 }
             }
+        }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            ContentControl1.Content = new Frame
+            {
+                Content = skinlogin
+            };
+            launchMode = 4;
         }
     }
 }

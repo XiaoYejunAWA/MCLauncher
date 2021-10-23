@@ -16,16 +16,14 @@ using System.Windows.Shapes;
 namespace MCLauncher.LoginUI
 {
     /// <summary>
-    /// ZhengBan.xaml 的交互逻辑
+    /// skinskin.xaml 的交互逻辑
     /// </summary>
-    public partial class ZhengBan : Page
+    public partial class skinskin : Page
     {
-        public ZhengBan()
+
+        public skinskin()
         {
-            
             InitializeComponent();
-            microsoft_launcher.MicrosoftAPIs v = new microsoft_launcher.MicrosoftAPIs();
-            v.SuppressWininetBehavior();
         }
     }
 }
