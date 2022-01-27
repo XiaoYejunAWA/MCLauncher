@@ -7,14 +7,12 @@
         mc:Ignorable="d"
         xmlns:pu="clr-namespace:Panuon.UI.Silver;assembly=Panuon.UI.Silver"
         Title="我的世界启动器" Height="450" Width="800"
-            Closing="Window_Closing"
-            >
+            Closing="Window_Closing">
+
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="21*"/>
-            <ColumnDefinition Width="59*"/>
-        </Grid.ColumnDefinitions>
-        <ContentControl x:Name="ContentControl1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="200" Height="200" Margin="0,0,30,140" Grid.Column="1"></ContentControl>
+        <Button Width="30" Height="20" Content="下载" Click="Button_Click_5" ></Button>
+        <DataGrid AutoGenerateColumns="True" x:Name="MCVersionDataGrid" Width="200" Height="200" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,10" SelectionMode="Single"></DataGrid>
+        <ContentControl  x:Name="ContentControl1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="200" Height="200" Margin="0,0,30,140" Grid.Column="1"></ContentControl>
         <ComboBox Height="30"
               Width="200"
                HorizontalAlignment="Left"
@@ -22,9 +20,10 @@
                VerticalAlignment="Top"
                Margin="30,30,0,0"
               pu:ComboBoxHelper.Header="版本 "
-              DisplayMemberPath="version" 
-              
-              pu:ComboBoxHelper.ItemHeight="30" SelectedValuePath="IdVersion" Grid.ColumnSpan="2"/>
+              DisplayMemberPath="version"
+
+              pu:ComboBoxHelper.ItemHeight="30" SelectedValuePath="IdVersion" Grid.ColumnSpan="2" />
+
         <ComboBox Height="30"
               Width="200"
                   DisplayMemberPath="Version"
@@ -34,7 +33,8 @@
                VerticalAlignment="Top"
                Margin="30,70,0,0"
               pu:ComboBoxHelper.Header="java "
-              pu:ComboBoxHelper.ItemHeight="30" Grid.ColumnSpan="2"/>
+              pu:ComboBoxHelper.ItemHeight="30" Grid.ColumnSpan="2" />
+
         <Button Content="离线" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="60" Height="30" Margin="0,0,170,100" FontSize="20" Click="Button_Click_1" Grid.Column="1"></Button>
         <Button Content="其他" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="60" Height="30" Margin="0,0,240,100" FontSize="20" Click="Button_Click_4" Grid.Column="1"></Button>
         <Button Content="正版" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="60" Height="30" Margin="0,0,100,100" FontSize="20" Click="Button_Click_2" Grid.Column="1"></Button>
@@ -45,12 +45,13 @@
              Text="1024"
              pu:TextBoxHelper.Header="RAM "
              pu:TextBoxHelper.Watermark="PlaceHolder"
-             pu:TextBoxHelper.CornerRadius="15" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,110,0,0" FontSize="20" TextChanged="MemoryTextbox_TextChanged" Grid.ColumnSpan="2"/>
+             pu:TextBoxHelper.CornerRadius="15" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,110,0,0" FontSize="20" TextChanged="MemoryTextbox_TextChanged" Grid.ColumnSpan="2" />
+
         <Button Height="60"
             Width="200"
             x:Name="startbutton"
             Content="启动"
             pu:ButtonHelper.ButtonStyle="Outline"
-            pu:ButtonHelper.CornerRadius="15" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,30,30" FontSize="36" Click="Button_Click" Grid.Column="1"/>
+            pu:ButtonHelper.CornerRadius="15" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,30,30" FontSize="36" Click="Button_Click" Grid.Column="1" />
     </Grid>
 </pu:WindowX>
